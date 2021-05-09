@@ -15,6 +15,8 @@ var messageStore = '';
 var {patchNotes, currentUse} = require('./Misc. JS Files/PatchNotes')
 var botOnline = true;
 var {goldenOne} = require('./Misc. JS Files/AdminList')
+const hakaiBotToken = 'ODQwOTgwMzI2MjU1NTU4NzI3.YJgF9g.y9s1ogKyA3Tw8ZnbB0yloNqooVw';
+var hakaiMSG = '';
 
 client.once('ready', () => {
     console.log('Server Manager Running');
@@ -270,13 +272,12 @@ client.on('message', message => {
             const member = message.mentions.users.first();
 
             if(member){
-                MessageChannel.send('Kinda Working');
 
                 const memberTarget = message.guild.members.cache.get(member.id);
 
                 memberTarget.kick('Kicked for Testing Purposes');
 
-                MessageChannel.send('User kicked!')
+                MessageChannel.send('User kicked!');
 
             } else {
 
@@ -303,6 +304,18 @@ client.on('message', message => {
 
     function displayGoldenOne(){
         MessageChannel.send(goldenOne);
+    }
+
+    function removeStore(){
+        MessageChannel.send('Message Deleted from Store');
+
+        return storeMessage = '';
+    }
+
+    function evolve(bot, msg){
+        client.login(bot);
+
+        MessageChannel.send(String(msg) + '\n\n(Discord bot has evolved)');
     }
 
     if(MessageLowerCase == 'test'){
@@ -375,8 +388,10 @@ client.on('message', message => {
         return;
     }
 
-    if(/Kick/.test(MessageContent) && !hasBot){
+    if(/Kick /.test(MessageContent) && !hasBot){
         kick();
+    } else if(MessageLowerCase == 'kick'){
+        MessageChannel.send('Mention a Player infront of Kick Please: ```Kick <PlayerID>```')
     }
 
     if(MessageLowerCase == 'current server members'){
@@ -393,6 +408,18 @@ client.on('message', message => {
 
     if(MessageLowerCase == 'golden one'){
         displayGoldenOne();
+    }
+
+    if(MessageLowerCase == 'remove stored object'){
+        removeStore();
+    }
+
+    if(/hakai/i.test(MessageContent) && !hasBot){
+        hakai();
+    }
+
+    if(MessageLowerCase == 'evolve'){
+        evolve(hakaiBotToken, 'Hakai...');
     }
 })
 
