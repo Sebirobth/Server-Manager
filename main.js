@@ -1,47 +1,22 @@
 const { Client, User, ClientUser, GuildManager } = require('discord.js');
 const client = new Client();
 const token = 'ODM5NTU0NDE0ODg0NDIxNjQz.YJLV-g.GyDyOv3CHZOZf_QaRmSLy7tQRY0';
-const prefix = '';
-var records = [
-    recordInfo1
-]
-var recordInfo1;
-var helpCommands = [
-    'Standard Commands:\n\n',
-    'Help - Provides a List of Commands and What They Do\n',
-    'Kumatora - Joke Command\n',
-    'Test - Tests the Bot\n',
-    'Tutorial - Provides a Link to 2 Tutorials\n',
-    "Admin - Checks if You're Admin or Not\n",
-    'AdminList - Displays all Admin Ranks\n',
-    'ServerBits - Server Bits are Added Every Time a Person Types a Message in the Server\n',
-    'UG - Pull out your Gun\n\n',
-    'Admin Commands:\n\n',
-    'UB - Chill with the Bullets Brandan!\n',
-    'Gold - Pull out your Golden Gun\n',
-    'Revive - Revive Everyone in the Server. What am I saying, your brandan\n'
-]
-var adminList = [
-    'Arbiter'
-]
+var {helpCommands} = require('./Misc. JS Files/CommandList');
+var {adminList} = require('./Misc. JS Files/AdminList');
 const tutorialLink = 'https://www.youtube.com/watch?v=j_sD9udZnCk';
 const websiteTutorialLink = 'https://www.freecodecamp.org/';
 var gunEq = false;
 var bazooka = false;
 var gun = false;
-var players = [
-    'KrYptic',
-    'Jimmy',
-    'Carl-Bot',
-    'Rythm',
-    'EarthBot',
-    'UwU',
-    'Streamcord'
-]
+var {players} = require('./Misc. JS Files/ServerMembers');
 var playersDead = false;
 var serverBits = 0;
-var YTLink = '';
-client.once('ready', message => {
+var messageStore = '';
+var {patchNotes, currentUse} = require('./Misc. JS Files/PatchNotes')
+var botOnline = true;
+var {goldenOne} = require('./Misc. JS Files/AdminList')
+
+client.once('ready', () => {
     console.log('Server Manager Running');
 })
 
@@ -54,7 +29,9 @@ client.on('message', message => {
     const rngNum3 = Math.ceil(Math.random() * 5);
     var userGold = message.member.roles.cache.has('839964004779556884');
     var userSus = message.member.roles.cache.has('802635001388728420');
+    var userAngel = message.member.roles.cache.has('803726105349455933');
     var deleteThis = client.emojis.cache.get('840282199878271057');
+    const hasBot = message.member.roles.cache.has('840833330102534195');
 
     function Help(){
         switch(rngNum){
@@ -182,13 +159,12 @@ client.on('message', message => {
                 break;
             case 5:
                 if(!playersDead){
-                killAllPlayers();
+                    killAllPlayers();
                 return playersDead = true;
                 } else {
                     MessageChannel.send();
                 }
-                return bazooka = true;
-                break;
+            return bazooka = true;
         }
     }
     }
@@ -228,15 +204,7 @@ client.on('message', message => {
         }
     }
 
-    if(MessageLowerCase == 'test'){
-        test();
-    }
-
-    if(MessageLowerCase == 'help'){
-        Help();
-    }
-
-    if(MessageLowerCase == 'kumatora'){
+    function kumatora(){
         switch(rngNum2){
             case 1:
                 MessageChannel.send('Gay');
@@ -248,6 +216,105 @@ client.on('message', message => {
                 kumatora();
                 break;
         }
+    }
+
+    function unequipGoldenBazooka(){
+        MessageChannel.send('Unequipped golden bazooka');
+        return bazooka = false
+    }
+
+    function unequipGoldenGun(){
+        MessageChannel.send('You unequip the golden gun');
+        return gunEq = false;
+    }
+
+    function unequipNormalGun(){
+        MessageChannel.send('You unequip your gun');
+        return gunEq = false;
+    }
+
+    function displayAdminList(){
+        MessageChannel.send('Current Admins:\n\n' + adminList);
+    }
+
+    function reviveAllPlayers(){
+        for(var i = 0; i < players.length; i++){
+            MessageChannel.send(String(players[i] + ' revived\n'))
+        }
+
+        return playersDead = false;
+    }
+
+    function addToServerBits(){
+        return serverBits += 12000;
+    }
+
+    function displayServerBits(){
+        MessageChannel.send(String(serverBits));
+    }
+
+    function storeMessage(){
+        messageStore = MessageContent;
+        MessageChannel.send('Message Stored Succesfully!')
+
+        return messageStore;
+    }
+
+    function repeatStore(){
+        MessageChannel.send(messageStore.replace('Store', ''));
+    }
+
+    function kick(){
+        if(userGold || userAngel || userSus || hasBot){
+
+            const member = message.mentions.users.first();
+
+            if(member){
+                MessageChannel.send('Kinda Working');
+
+                const memberTarget = message.guild.members.cache.get(member.id);
+
+                memberTarget.kick('Kicked for Testing Purposes');
+
+                MessageChannel.send('User kicked!')
+
+            } else {
+
+                MessageChannel.send('You cant kick that member');
+
+            }
+
+        }
+    }
+
+    function displayAllServerMembers(){
+        MessageChannel.send(players);
+    }
+
+    function displayPatchNotes(){
+        for(var i = 0; i < patchNotes.length; i++){
+            MessageChannel.send(patchNotes[i]);
+        }
+    }
+
+    function displayCurrentUse(){
+        MessageChannel.send(currentUse);
+    }
+
+    function displayGoldenOne(){
+        MessageChannel.send(goldenOne);
+    }
+
+    if(MessageLowerCase == 'test'){
+        test();
+    }
+
+    if(MessageLowerCase == 'help'){
+        Help();
+    }
+
+    if(MessageLowerCase == 'kumatora'){
+        kumatora();
     }
 
     if(MessageLowerCase == 'tutorial'){
@@ -273,36 +340,59 @@ client.on('message', message => {
     }
 
     if(MessageLowerCase == 'ub' && userGold){
-        MessageChannel.send('Unequipped golden bazooka');
-        return bazooka = false
+        unequipGoldenBazooka();
     }
 
     if(MessageLowerCase == 'ug' && userGold && !bazooka){
-        MessageChannel.send('You unequip the golden gun');
-        return gunEq = false;
+        unequipGoldenGun();
     } else if(MessageLowerCase == 'ug' && !userGold){
-        MessageChannel.send('You unequip your gun');
-        return gunEq = false;
+        unequipNormalGun();
     }
 
     if(MessageLowerCase == 'adminlist'){
-        MessageChannel.send('Current Admins:\n\n' + adminList);
+        displayAdminList();
     }
 
     if(MessageLowerCase == 'reviveall' && playersDead == true && userGold){
-        for(var i = 0; i < players.length; i++){
-            MessageChannel.send(String(players[i] + ' revived\n'))
-        }
-
-        return playersDead = false;
+        reviveAllPlayers();
     }
 
     if(MessageLowerCase == 'serverbits'){
-        MessageChannel.send(String(serverBits));
+        displayServerBits();
     }
 
     if(typeof MessageContent == 'string'){
-        return serverBits += 12000;
+        addToServerBits();
+    }
+
+    if(/Store/.test(MessageContent) && !hasBot){
+        storeMessage();
+        return;
+    }
+
+    if(MessageLowerCase == 'repeat' && !hasBot){
+        repeatStore();
+        return;
+    }
+
+    if(/Kick/.test(MessageContent) && !hasBot){
+        kick();
+    }
+
+    if(MessageLowerCase == 'current server members'){
+        displayAllServerMembers();
+    }
+
+    if(MessageLowerCase == 'patch notes'){
+        displayPatchNotes();
+    }
+
+    if(MessageLowerCase == 'current use'){
+        displayCurrentUse();
+    }
+
+    if(MessageLowerCase == 'golden one'){
+        displayGoldenOne();
     }
 })
 
