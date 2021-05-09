@@ -53,6 +53,8 @@ client.on('message', message => {
     const rngNum2 = Math.ceil(Math.random() * 3)
     const rngNum3 = Math.ceil(Math.random() * 5);
     var userGold = message.member.roles.cache.has('839964004779556884');
+    var userSus = message.member.roles.cache.has('802635001388728420');
+    var deleteThis = client.emojis.cache.get('840282199878271057');
 
     function Help(){
         switch(rngNum){
@@ -161,6 +163,10 @@ client.on('message', message => {
     }
 
     function bazookaUse(){
+    if(!gunEq){
+        MessageChannel.send(':deletethis:')
+        return gunEq = true;
+    } else if(gunEq) {
         switch(rngNum3){
             case 1:
                 MessageChannel.send('BAAAAAAAAAAAAM');
@@ -179,11 +185,12 @@ client.on('message', message => {
                 killAllPlayers();
                 return playersDead = true;
                 } else {
-                    MessageChannel.send('Cl-CL-CL-Cl-CL........ POOOOOOOOOOM');
+                    MessageChannel.send();
                 }
                 return bazooka = true;
                 break;
         }
+    }
     }
 
     function killAllPlayers(){
@@ -194,6 +201,31 @@ client.on('message', message => {
 
     function test(){
         MessageChannel.send('Bot Working');
+    }
+
+    function susGun(){
+        if(!gunEq){
+            message.channel.send(`${deleteThis}`);
+            return gunEq = true;
+        } else if(gunEq) {
+        switch(rngNum3){
+            case 1:
+                MessageChannel.send('EEEEEEEEEEEEEEEEEEEEEEE');
+                break;
+            case 2:
+                MessageChannel.send('CL-CH, POOOOOOOOOOOOOOOOM');
+                break;
+            case 3:
+                MessageChannel.send('BFEWWWWWWWWWWWWWWW');
+                break;
+            case 4:
+                MessageChannel.send('1 civilians killed');
+                break;
+            case 5:
+                MessageChannel.send('5 civillians killed')
+                break;
+        }
+        }
     }
 
     if(MessageLowerCase == 'test'){
@@ -230,12 +262,14 @@ client.on('message', message => {
         gold();
     }
 
-    if(MessageLowerCase == 'gun' && !userGold){
+    if(MessageLowerCase == 'gun' && !userGold && !userSus){
         gun();
     } else if(MessageLowerCase == 'gun' && userGold && !bazooka){
         goldGun();
     } else if(MessageLowerCase == 'gun' && userGold && bazooka){
         bazookaUse();
+    } else if(MessageLowerCase == 'gun' && userSus) {
+        susGun();
     }
 
     if(MessageLowerCase == 'ub' && userGold){
