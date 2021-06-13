@@ -1,54 +1,39 @@
-const path = require('path');
-const fs = require('fs');
-const { Client } = require('discord.js');
-const Discord = require('discord.js');
-const config = require('./config.json');
 require('dotenv').config();
 
-const commandFiles = fs.readdirSync('./JS Files').filter(file => file.endsWith('.js'));
+const { Client, Collection } = require('discord.js');
+const fs = require('fs');
+const { prefix } = require('./config.json');
 
 const client = new Client();
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 
-const {
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-    prefix
+for(const file of commandFiles) {
 
-} = require('./config.json');
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command, command.desc, command.perms);
+    console.log(`Loaded -${command.name}-`);
 
+}
 
 client.on('ready', () => {
 
-    console.log('DevBot is running!');
+    console.log('Server Manager is now online');
 
 })
 
 client.on('message', message => {
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const args = message.content.slice(prefix.length).trim().split(' ');
     const command = args.shift().toLowerCase();
 
-    if (!client.commands.has(command)) return;
+    if(message.author.id === client.user.id) return;
 
-    try {
+    if(!client.commands.get(command)) return message.reply('Invalid command');
 
-        client.commands.get(command).execute(message, args, client, Discord);
-
-    } catch (err) {
-
-        console.error(err);
-
-        message.reply('Issue executing command');
-
-    }
+    client.commands.get(command).execute(message, args);
 
 })
-
-for (const file of commandFiles) {
-
-    const command = require(`./JS Files/${file}`);
-    client.commands.set(command.name, command);
-
-}
 
 client.login(process.env.DISCORD_TOKEN);
