@@ -3,6 +3,8 @@ module.exports = {
     name: 'clear',
     desc: 'Clears a specified amount below 100',
     perms: 'KICK_MEMBERS',
+    aliases: 'c',
+    syntax: '<Clear Amount>',
     execute(message, args) {
 
         if(!args[0]) return message.reply('No Number of Messages Specified');

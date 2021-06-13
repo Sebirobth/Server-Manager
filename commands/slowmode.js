@@ -3,6 +3,8 @@ module.exports = {
     name: 'slowmode',
     desc: 'Sets a slowode rate',
     perms: 'ADMINISTRATOR',
+    aliases: 'sm',
+    syntax: '<Time>',
     async execute(message, args) {
 
         const { channel } = message;

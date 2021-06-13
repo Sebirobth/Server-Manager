@@ -3,6 +3,8 @@ module.exports = {
     name: 'updateperms',
     desc: 'Updates permissions in a certain channel with a certain role',
     perms: 'ADMINISTRATOR',
+    aliases: 'up',
+    syntax: '<Channel ID> <Role ID> <Permission/s nam/s>',
     execute(message, args) {
 
         if(args.length < 4 || args.length > 4) return message.reply('Syntax - !--updateperms <Channel ID> <Role ID> <"ADD" or "REMOVE"> <Any amount of permission nodes (Uppercase)>');

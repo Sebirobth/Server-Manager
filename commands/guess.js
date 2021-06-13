@@ -2,6 +2,7 @@ module.exports = {
 
     name: 'guess',
     desc: 'Guess a number',
+    syntax: '<Number>',
     execute(message, args) {
 
         let rndNum = Math.ceil(Math.random() * 10).toString();

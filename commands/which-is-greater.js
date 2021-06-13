@@ -1,7 +1,9 @@
 module.exports = {
 
-    name: 'wig',
+    name: 'which-is-greater',
     desc: 'Returns which number of 2 specified numbers is greater',
+    aliases: 'wig',
+    syntax: '<First Number> <Second Number>',
     execute(message, args) {
 
         if(!args[0] || !args[1] || isNaN(args[0]) || isNaN(args[1])) return message.channel.send('Invalid Numbers');

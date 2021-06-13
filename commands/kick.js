@@ -3,6 +3,7 @@ module.exports = {
     name: 'kick',
     desc: 'Kicks a member',
     perms: 'KICK_MEMBERS',
+    syntax: '<Member to Kick>',
     execute(message, args) {
 
         if(!args[0]) return message.reply('No Member Specified');

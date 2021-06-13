@@ -4,7 +4,7 @@ module.exports = {
 
     name: 'help',
     desc: 'Pretty Obvious',
-    async execute(message, args) {
+    async execute(message) {
 
         const fs = require('fs');
 
@@ -18,18 +18,13 @@ module.exports = {
 
             const command = require(`../commands/${file}`);
 
-            commands.push(`${command.name} -`, command.desc, `${command.perms ? `Required Perms: ${command.perms}` : ''}`, '\n');
+            commands.push(`${command.name}${command.syntax ? ' - ' + command.syntax : ''}`, command.desc, `${command.perms ? `Required Perms: ${command.perms}` : ''}`, `${command.aliases ? `Aliases: ${command.aliases}` : ''}`, '\n');
 
             commandCollection.set(command.name, command.desc, command.perms);
 
         }
 
-        const { MessageEmbed } = require('discord.js');
-
-        const embed = new MessageEmbed()
-            .addField('Commands', commands.join('\n\n'));
-
-        message.channel.send(embed);
+        message.channel.send(commands.join('\n\n'))
 
     }
 

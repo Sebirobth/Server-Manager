@@ -1,30 +1,14 @@
-const { MessageCollector } = require('discord.js');
-
 module.exports = {
 
-    name: 'ram',
+    name: 'repeat-after-me',
     desc: 'Repeats after you',
-    execute(message) {
+    syntax: 'Message to Repeat',
+    aliases: 'ram',
+    execute(message, args) {
 
-        const filter = m => m.author.id === message.author.id;
-        const collector = new MessageCollector(message.channel, filter, {
+        if(!args) return message.reply('Please provide something for me to repeat');
 
-            max: 1,
-            time: 1000 * 20
-
-        })
-
-        message.channel.send('What should I repeat?');
-
-        collector.on('end', collected => {
-
-            collected.forEach(value => {
-
-                message.channel.send(value.content)
-
-            })
-            
-        })
+        message.channel.send(typeof args == 'string' ? args : args.join(' '));
 
     }
 

@@ -2,8 +2,9 @@ const { MessageCollector } = require('discord.js');
 
 module.exports = {
 
-    name: 'ft',
+    name: 'fast-type-game',
     desc: 'A fun little game',
+    aliases: ['ft', 'ftg'],
     async execute(message, args) {
 
         function startGame() {

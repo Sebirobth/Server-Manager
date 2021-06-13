@@ -2,6 +2,7 @@ module.exports = {
 
     name: 'roll',
     desc: 'Rolls a random number between 2 specified numbers',
+    syntax: '<Min Roll Amount>',
     execute(message, args) {
 
         let randomNumberFSR = Math.ceil(Math.random() * 100);

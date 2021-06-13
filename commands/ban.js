@@ -3,6 +3,7 @@ module.exports = {
     name: 'ban',
     desc: 'Bans a member',
     perms: 'BAN_MEMBERS',
+    syntax: '<Member to Ban>',
     execute(message, args) {
 
         if(!args[0]) return message.reply('No Member Specified');
