@@ -6,6 +6,9 @@
         "GuildMessages",
         "MessageContent"
     ],
-    "ready_msg": "Ready"
+    "ready_msg": "Ready",
+    "ICIDs": {
+        "welcome_channel": "850815853179043890"
+    }
 
 }
