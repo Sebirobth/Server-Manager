@@ -1,5 +1,1 @@
-module.exports = () => {
-
-    console.log('\n\nServer Manager Ready');
-
-}
+module.exports = () => console.log(require('../../config.json').ready_msg);
