@@ -1,0 +1,11 @@
+{
+
+    "prefix": "!--",
+    "intents": [
+        "Guilds",
+        "GuildMessages",
+        "MessageContent"
+    ],
+    "ready_msg": "Ready"
+
+}
