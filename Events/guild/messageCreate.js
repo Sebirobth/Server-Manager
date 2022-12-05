@@ -25,5 +25,5 @@ module.exports = (Discord, client, message) => {
 
     if (HandleErrors(Discord, client, message) == false) return;
 
-    command.execute(message, args, Discord);
+    command.execute(message, args, Discord, client);
 }
